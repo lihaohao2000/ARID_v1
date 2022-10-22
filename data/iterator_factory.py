@@ -17,7 +17,7 @@ def get_arid(data_root='./dataset/ARID',
 			   val_interval=2,
 			   mean=[0.485, 0.456, 0.406],
 			   std=[0.229, 0.224, 0.225],
-			   seed=torch.distributed.get_rank() if torch.distributed.is_initialized() else 0,
+			   seed=torch.distributed.get_rank() if torch.distributed.is_available() else 0,
 			   **kwargs):
 	""" data iter for ucf-101
 	"""
@@ -28,8 +28,8 @@ def get_arid(data_root='./dataset/ARID',
 
 	train_sampler = sampler.RandomSampling(num=clip_length, interval=train_interval, speed=[1.0, 1.0], seed=(seed+0))
 	# train_sampler = sampler.SegmentalSampling(num_per_seg=clip_length, segments=segments, interval=train_interval, fix_cursor=False, shuffle=True, seed=(seed+0))
-	train = VideoIter(video_prefix=os.path.join(data_root, 'raw', 'data'),
-					  txt_list=os.path.join(data_root, 'raw', 'list_cvt', 'ARID_split1_train.txt'),
+	train = VideoIter(video_prefix=os.path.join(data_root, 'raw', 'train'),
+					  txt_list=os.path.join(data_root, 'raw', 'list_cvt', 'train.txt'),
 					  sampler=train_sampler,
 					  force_color=True,
 					  video_transform=transforms.Compose([
@@ -52,8 +52,8 @@ def get_arid(data_root='./dataset/ARID',
 
 	val_sampler = sampler.SequentialSampling(num=clip_length, interval=val_interval, fix_cursor=True, shuffle=True)
 	# val_sampler = sampler.SegmentalSampling(num_per_seg=clip_length, segments=segments, interval=val_interval, fix_cursor=True, shuffle=True)
-	val   = VideoIter(video_prefix=os.path.join(data_root, 'raw', 'data'),
-					  txt_list=os.path.join(data_root, 'raw', 'list_cvt', 'ARID_split1_test.txt'),
+	val   = VideoIter(video_prefix=os.path.join(data_root, 'raw', 'validate'),
+					  txt_list=os.path.join(data_root, 'raw', 'list_cvt', 'validate.txt'),
 					  sampler=val_sampler,
 					  force_color=True,
 					  video_transform=transforms.Compose([
@@ -80,7 +80,7 @@ def get_arid_flow(data_root='./dataset/ARID',
 			   val_interval=2,
 			   mean=[0.485, 0.456, 0.406],
 			   std=[0.229, 0.224, 0.225],
-			   seed=torch.distributed.get_rank() if torch.distributed.is_initialized() else 0,
+			   seed=torch.distributed.get_rank() if torch.distributed.is_available() else 0,
 			   **kwargs):
 	""" data iter for ucf-101
 	"""

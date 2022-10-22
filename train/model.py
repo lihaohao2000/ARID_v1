@@ -55,7 +55,7 @@ class static_model(object):
 
     def get_checkpoint_path(self, epoch):
         assert self.model_prefix, "model_prefix undefined!"
-        if torch.distributed.is_initialized():
+        if torch.distributed.is_available():
             hostname = socket.gethostname()
             checkpoint_path = "{}_at-{}_ep-{:04d}.pth".format(self.model_prefix, hostname, epoch)
         else:
@@ -124,7 +124,6 @@ class static_model(object):
             with torch.no_grad(): # for pytorch040 version
                 input_var = torch.autograd.Variable(data)
                 target_var = torch.autograd.Variable(target)
-
         output = self.net(input_var)
         if hasattr(self, 'criterion') and self.criterion is not None \
             and target is not None:
