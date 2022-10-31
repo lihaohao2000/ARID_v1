@@ -17,7 +17,7 @@ def get_arid(data_root='./dataset/ARID',
 			   val_interval=2,
 			   mean=[0.485, 0.456, 0.406],
 			   std=[0.229, 0.224, 0.225],
-			   seed=torch.distributed.get_rank() if torch.distributed.is_available() else 0,
+			   seed=torch.distributed.get_rank() if torch.distributed.is_initialized() else 0,
 			   **kwargs):
 	""" data iter for ucf-101
 	"""
@@ -80,7 +80,7 @@ def get_arid_flow(data_root='./dataset/ARID',
 			   val_interval=2,
 			   mean=[0.485, 0.456, 0.406],
 			   std=[0.229, 0.224, 0.225],
-			   seed=torch.distributed.get_rank() if torch.distributed.is_available() else 0,
+			   seed=torch.distributed.get_rank() if torch.distributed.is_initialized() else 0,
 			   **kwargs):
 	""" data iter for ucf-101
 	"""
